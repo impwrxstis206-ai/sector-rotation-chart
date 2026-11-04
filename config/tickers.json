@@ -1,0 +1,31 @@
+{
+  "suffix": ".T",
+  "benchmark": { "code": "1306", "name": "TOPIX(1306)" },
+  "groups": {
+    "defensive": "ディフェンシブ",
+    "cyclical": "景気敏感",
+    "financial": "金融",
+    "tech": "ハイテク"
+  },
+  "tickers": [
+    { "code": "1617", "name": "食品", "group": "defensive" },
+    { "code": "1618", "name": "エネルギー資源", "group": "cyclical" },
+    { "code": "1619", "name": "建設・資材", "group": "cyclical" },
+    { "code": "1620", "name": "素材・化学", "group": "cyclical" },
+    { "code": "1621", "name": "医薬品", "group": "defensive" },
+    { "code": "1622", "name": "自動車・輸送機", "group": "cyclical" },
+    { "code": "1623", "name": "鉄鋼・非鉄", "group": "cyclical" },
+    { "code": "1624", "name": "機械", "group": "cyclical" },
+    { "code": "1625", "name": "電機・精密", "group": "tech" },
+    { "code": "1626", "name": "情報通信・サービス", "group": "tech" },
+    { "code": "1627", "name": "電力・ガス", "group": "defensive" },
+    { "code": "1628", "name": "運輸・物流", "group": "defensive" },
+    { "code": "1629", "name": "商社・卸売", "group": "cyclical" },
+    { "code": "1630", "name": "小売", "group": "defensive" },
+    { "code": "1631", "name": "銀行", "group": "financial" },
+    { "code": "1632", "name": "金融(除く銀行)", "group": "financial" },
+    { "code": "1633", "name": "不動産", "group": "financial" },
+    { "code": "200A", "name": "日経半導体", "group": "tech", "semi": true },
+    { "code": "2644", "name": "GX半導体", "group": "tech", "semi": true }
+  ]
+}
