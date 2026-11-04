@@ -6,13 +6,24 @@
   <meta name="color-scheme" content="light dark">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>セクターローテーション</title>
+  <script>
+    // 描画前にテーマを決めてチラつきを防ぐ（既定はダーク）
+    (function () {
+      var t = 'dark';
+      try { t = localStorage.getItem('sector-rotation-chart:theme') || 'dark'; } catch (_) {}
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
 </head>
 <body>
   <header>
     <h1>セクターローテーション <small>TOPIX比 相対強度</small></h1>
-    <div id="updated" class="muted"></div>
+    <div class="header-right">
+      <div id="updated" class="muted"></div>
+      <button id="theme" title="表示テーマの切替"></button>
+    </div>
   </header>
 
   <section class="controls">

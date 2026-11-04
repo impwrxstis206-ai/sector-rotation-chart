@@ -11,6 +11,7 @@ const PALETTE = {
   tech: ['#ae3ec9', '#e64980', '#7048e8', '#f783ac'],
 };
 const STORE_KEY = 'sector-rotation-chart:v1';
+const THEME_KEY = 'sector-rotation-chart:theme';  // index.html の先頭スクリプトと同じキー
 
 // ---- 状態 -------------------------------------------------------------------
 const state = {
@@ -408,6 +409,17 @@ function bind() {
   let rt;
   window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { chart.resize(); render(); }, 150); });
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { initChart(); render(); });
+  syncTheme();
+  $('#theme').addEventListener('click', () => {
+    const order = ['dark', 'light', 'auto'];
+    const cur = document.documentElement.dataset.theme || 'dark';
+    const next = order[(order.indexOf(cur) + 1) % order.length];
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem(THEME_KEY, next); } catch (_) { /* 保存できなくても表示は切り替わる */ }
+    syncTheme();
+    initChart();
+    render();
+  });
 
   // 10分ごとに最新データを再取得（基準時刻は維持、終点が「最新」なら追従）
   setInterval(async () => {
@@ -419,6 +431,11 @@ function bind() {
       render();
     } catch (e) { console.warn(e); }
   }, 10 * 60 * 1000);
+}
+
+function syncTheme() {
+  const labels = { dark: '🌙 ダーク', light: '☀ ライト', auto: '◐ 自動' };
+  $('#theme').textContent = labels[document.documentElement.dataset.theme] || labels.dark;
 }
 
 function showError(e) {
