@@ -27,7 +27,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
+      # トリガー時点のコミットではなく最新の main を取る（前の実行が commit したデータを引き継ぐため）
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-python@v5
         with:
@@ -50,8 +53,18 @@ jobs:
             echo "no changes"
           else
             git commit -m "data: update $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M') JST"
-            for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
+            # data/*.json は毎回丸ごと作り直すので、競合時はこの実行で作ったもの（rebase では theirs）を採用する
+            for i in 1 2 3; do
+              if git pull --rebase -X theirs; then
+                git push && break
+              else
+                git rebase --abort || true
+              fi
+              sleep 5
+            done
           fi
+          # 競合マーカー入りのファイルを公開しないよう、作業ツリーが壊れていたら止める
+          ! grep -l '^<<<<<<<' data/*.json
 
       - name: Build site
         run: |
